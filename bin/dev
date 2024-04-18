@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+heroku local -f Procfile.dev -e .env,.env.local $*

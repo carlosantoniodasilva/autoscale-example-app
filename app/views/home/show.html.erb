@@ -1,0 +1,50 @@
+<% @title = "Autoscale Sample App" %>
+
+<div class="prose max-w-none">
+  <p>
+    Hey! We’re <a href="https://judoscale.com" target="_blank">Judoscale</a>.
+    We built this tiny Rails app for testing autoscalers.
+  </p>
+
+  <p>
+    Use the form below to trigger requests with a configurable processing time.
+    Depending on your server capacity, you should start to see a slow-down due to
+    request queueing. If you’ve configured autoscaling, this should trigger an upscale.
+  </p>
+</div>
+
+<div class="border-t pt-12" x-data="requestInterceptor">
+  <%= form_with model: @manager, url: false, method: :get, html: {"@submit.prevent"=> "handleSubmit"} do |form| %>
+    <div class="space-y-10">
+      <table class="divide-y divide-gray-300">
+        <tbody>
+          <tr>
+            <td class="whitespace-nowrap py-1 text-sm font-semibold text-gray-900">Pending requests:</td>
+            <td class="whitespace-nowrap pl-4 py-1 text-sm text-gray-500" x-text="pending"></td>
+          </tr>
+          <tr>
+            <td class="whitespace-nowrap py-1 text-sm font-semibold text-gray-900">Completed requests:</td>
+            <td class="whitespace-nowrap pl-4 py-1 text-sm text-gray-500" x-text="completed"></td>
+          </tr>
+          <tr>
+            <td class="whitespace-nowrap py-1 text-sm font-semibold text-gray-900">Last response time:</td>
+            <td class="whitespace-nowrap pl-4 py-1 text-sm text-gray-500" x-text="lastResponseTime"></td>
+          </tr>
+          <tr>
+            <td class="whitespace-nowrap py-1 text-sm font-semibold text-gray-900">Avg response time:</td>
+            <td class="whitespace-nowrap pl-4 py-1 text-sm text-gray-500" x-text="avgResponseTime"></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <%= form.field do %>
+        <%= form.label "How long do you want each request to take?" %>
+
+        <% latency_opts = { 1000 => "1 sec", 5000 => "5 sec", 10_000 => "10 sec", 25_000 => "25 sec" } %>
+        <%= form.radio_buttons :latency, latency_opts %>
+      <% end %>
+
+      <%= form.button_row "Send request" %>
+    </div>
+  <% end %>
+</div>
