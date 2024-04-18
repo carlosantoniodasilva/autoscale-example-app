@@ -12,6 +12,9 @@ gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "bootsnap", require: false
 gem "sidekiq", "~> 6.0"
 
+gem "judoscale-rails"
+gem "judoscale-sidekiq"
+
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
 end
